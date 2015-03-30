@@ -42,10 +42,10 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="monthly costs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZb-hO-KIP" userLabel="mesecni">
-                                                    <rect key="frame" x="522" y="11" width="70" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="monthly costs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZb-hO-KIP" userLabel="mesecni">
+                                                    <rect key="frame" x="463" y="11" width="129" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="1lt-VK-cuL"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="1lt-VK-cuL"/>
                                                         <constraint firstAttribute="width" constant="108" id="nLU-9w-OFL"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>

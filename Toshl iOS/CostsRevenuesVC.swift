@@ -43,9 +43,9 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         
-        
         tableDays = []
         getDaysFromCoreData()
+    
      
         tableView.reloadData()
     }
@@ -154,6 +154,8 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     //Helper Funct
     func getDaysFromCoreData(){
         let fetchRequest = NSFetchRequest(entityName: "DateDay")
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         let objectsDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
         
         for object in objectsDay {
