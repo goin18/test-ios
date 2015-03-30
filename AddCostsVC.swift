@@ -48,6 +48,9 @@ class AddCostsVC: UIViewController {
     let kHalf:CGFloat = 1.0/2.0
     let kFourth:CGFloat = 1.0/4.0
     
+    let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    
     var tableExpensiveCategory = ["Home & Utilities", "Food & Drinks", "Charity", "Transport", "FInancial Instruments"]
     
     override func viewDidLoad() {
@@ -77,67 +80,39 @@ class AddCostsVC: UIViewController {
     
     @IBAction func saveToCoreData(sender: UIBarButtonItem) {
         println("Save To CoreData")
-        let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
-        let managedObjectContext = appDelegete.managedObjectContext
         
-        var requestDate = NSFetchRequest(entityName: "DanEntiteta")
-        var error:NSError? = nil
-        var resultsDate = managedObjectContext!.executeFetchRequest(requestDate, error: &error) as [DanEntiteta]
-        var existDay = true
+        var fetchRequest = NSFetchRequest(entityName: "DateDay")
+
+        var date = NSDate()
+        var day = Date.getDateDay(date: date)
+        var mounth = Date.getDateMounth(date: date)
+        var year = "2015"
         
-       
+        let exprTitle = NSExpression(forKeyPath: "date")
+        let exprValue = NSExpression(forConstantValue: Date.from(year: 2015, month: mounth, day: day))
+        let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
-        let entityDescription = NSEntityDescription.entityForName("Cost", inManagedObjectContext: managedObjectContext!)
-        let cost = Cost(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext!)
+        fetchRequest.predicate = predicate
+        var dateExist = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
         
-        if segueMode == "addRed"{
-            var dateAdded = NSDate()
-            cost.date = dateAdded
-            cost.category = "Expensive"
-            cost.name = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
-            cost.toAccount = "Bank"
-            cost.repeat = Int(arc4random_uniform(UInt32(20)))
-            cost.cost = numberLabel.text!
+        if dateExist.count != 0 {
+            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+            cost1.name = "internet"
+            cost1.category = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
+            cost1.toAccount = "Bank"
+            cost1.date = Date.from(year: 2015, month: mounth, day: day)
+            cost1.repeat = Int(arc4random_uniform(UInt32(20)))
+            var costT = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
+            cost1.cost = costT!
+            
+            dateExist[0].costs = costT! + (dateExist[0].costs).floatValue
+            dateExist[0].numberCost = 1 +  dateExist[0].numberCost.integerValue
+            
             appDelegete.saveContext()
             
-            for var i = 0; i < resultsDate.count; i++ {
-                println("Dan: \(resultsDate[i].dan)")
-              var rezDate: NSDate = resultsDate[i].dan
-                println("\(Date.getDateDay(date: rezDate))")
-                var addedDay = Date.getDateDay(date: dateAdded)
-                var rezDay = Date.getDateDay(date: rezDate)
-                
-                if addedDay == rezDay {
-                    existDay = false
-                    var x = resultsDate[i].costnumber
-                   // danE.costnumber = x + 1
-                }
-
-            }
-            
-            if existDay {
-                let entityDescriptionDan = NSEntityDescription.entityForName("DanEntiteta", inManagedObjectContext: managedObjectContext!)
-                let danE = DanEntiteta(entity: entityDescriptionDan!, insertIntoManagedObjectContext: managedObjectContext!)
-
-                danE.dan = NSDate()
-                danE.skupniStroski = 12
-                danE.costnumber = 1
-                appDelegete.saveContext()
-            }
-            
-        
         }
         
-        
-        var request = NSFetchRequest(entityName: "Cost")
-        
-        var results:NSArray = managedObjectContext!.executeFetchRequest(request, error: &error)!
-        
-        println(results)
-       
-       
-
-        
+     
         navigationController?.popViewControllerAnimated(true)
         
     }
@@ -203,7 +178,7 @@ class AddCostsVC: UIViewController {
     
     func addNumber(button: UIButton){
         let number = button.currentTitle!
-        println("Number pressed: \(number)")
+       // println("Number pressed: \(number)")
         if numberLabel.text == "0" {
             numberLabel.text = number
         }else {

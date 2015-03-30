@@ -2,19 +2,21 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Cost" representedClassName="Cost" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cost" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cost" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="repeat" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="repeat" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="toAccount" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dayCost" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DateDay" inverseName="costsDay" inverseEntity="DateDay" syncable="YES"/>
     </entity>
-    <entity name="DanEntiteta" representedClassName="DanEntiteta" syncable="YES">
-        <attribute name="costnumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="dan" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="skupniStroski" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    <entity name="DateDay" representedClassName="DateDay" syncable="YES">
+        <attribute name="costs" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="numberCost" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="costsDay" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cost" inverseName="dayCost" inverseEntity="Cost" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Cost" positionX="-18" positionY="-54" width="128" height="133"/>
-        <element name="DanEntiteta" positionX="225" positionY="-27" width="128" height="88"/>
+        <element name="Cost" positionX="207" positionY="11" width="128" height="148"/>
+        <element name="DateDay" positionX="0" positionY="-18" width="128" height="103"/>
     </elements>
 </model>

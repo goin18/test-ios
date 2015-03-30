@@ -80,16 +80,50 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wqN-sf-zwW" id="wpV-YL-zJz">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="string" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-PS-FiN">
-                                                    <rect key="frame" x="8" y="11" width="300" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZBr-et-C4M">
+                                                    <rect key="frame" x="8" y="11" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="qSk-GM-YUk"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ct3-2a-x3b">
+                                                    <rect key="frame" x="58" y="11" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="T7I-Ib-Rv8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9my-x3-Ajg">
+                                                    <rect key="frame" x="550" y="11" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="1bX-6u-l5q"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ct3-2a-x3b" firstAttribute="leading" secondItem="ZBr-et-C4M" secondAttribute="trailing" constant="8" id="E9v-oa-9XL"/>
+                                                <constraint firstItem="9my-x3-Ajg" firstAttribute="top" secondItem="wpV-YL-zJz" secondAttribute="topMargin" constant="3" id="PBh-NX-xOh"/>
+                                                <constraint firstItem="9my-x3-Ajg" firstAttribute="trailing" secondItem="wpV-YL-zJz" secondAttribute="trailingMargin" id="Phf-yo-5nd"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ct3-2a-x3b" secondAttribute="bottom" constant="4" id="RAQ-r9-HWc"/>
+                                                <constraint firstItem="ZBr-et-C4M" firstAttribute="top" secondItem="wpV-YL-zJz" secondAttribute="topMargin" constant="3" id="cOZ-pl-atZ"/>
+                                                <constraint firstItem="ct3-2a-x3b" firstAttribute="top" secondItem="wpV-YL-zJz" secondAttribute="topMargin" constant="3" id="n53-VA-FJA"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ZBr-et-C4M" secondAttribute="bottom" constant="4" id="sNY-8H-Lbd"/>
+                                                <constraint firstItem="ZBr-et-C4M" firstAttribute="leading" secondItem="wpV-YL-zJz" secondAttribute="leadingMargin" id="ugW-Rq-l8f"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="9my-x3-Ajg" secondAttribute="bottom" constant="4" id="vvt-3J-LqZ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="celllabel" destination="Ecc-PS-FiN" id="xU8-CP-lUZ"/>
+                                            <outlet property="labelCategory" destination="ZBr-et-C4M" id="i0D-J1-HSR"/>
+                                            <outlet property="labelCost" destination="9my-x3-Ajg" id="BNU-fH-eJC"/>
+                                            <outlet property="labelName" destination="ct3-2a-x3b" id="AGS-vP-iZN"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -16,14 +16,11 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
     var plusButton: UIButton!
 
-    var tableOfDays:[DanEntiteta]!
-    var tableDayDisplay:[DayStruct] = []
-    var tableOfCousts:[Cost]!
-    var tableCostPerSection:[CostStruct] = []
-    
     let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
     let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
-    //let entityDescription = NSEntityDescription.entityForName("KpBus", inManagedObjectContext: (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext!)
+    
+    var tableDays:[(DateDay, Bool)] = []
+    var tableCostDay:[[Cost]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,23 +28,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.dataSource = self
         tableView.delegate = self
   
-        
         navigationController?.navigationBar.barTintColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)
-        
-        var requestDay = NSFetchRequest(entityName: "DanEntiteta")
-        var dayFromRequest = managedObjectContext?.executeFetchRequest(requestDay, error: nil) as [DanEntiteta]
-        
-        tableOfDays = dayFromRequest
-        
-        for day in tableOfDays {
-            var dayStruct:DayStruct = DayStruct(toggle: true, date:day.dan, cost:day.skupniStroski)
-            tableDayDisplay += [dayStruct]
-        }
-        
-        var requestCosts = NSFetchRequest(entityName: "Cost")
-        var dayFromCosts = managedObjectContext?.executeFetchRequest(requestCosts, error: nil) as [Cost]
-        
-        tableOfCousts = dayFromCosts
         
         setPlus()
         
@@ -61,21 +42,11 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        var requestDay = NSFetchRequest(entityName: "DanEntiteta")
-        var dayFromRequest = managedObjectContext?.executeFetchRequest(requestDay, error: nil) as [DanEntiteta]
         
-        tableOfDays = dayFromRequest
         
-        for day in tableOfDays {
-            var dayStruct:DayStruct = DayStruct(toggle: true, date:day.dan, cost:day.skupniStroski)
-            tableDayDisplay += [dayStruct]
-        }
-        
-        var requestCosts = NSFetchRequest(entityName: "Cost")
-        var dayFromCosts = managedObjectContext?.executeFetchRequest(requestCosts, error: nil) as [Cost]
-        
-        tableOfCousts = dayFromCosts
-        println("ViewDid")
+        tableDays = []
+        getDaysFromCoreData()
+     
         tableView.reloadData()
     }
     
@@ -92,57 +63,75 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             let addCostslVC: AddCostsVC = segue.destinationViewController as AddCostsVC
             addCostslVC.segueMode = "addGrey"
         }else if segue.identifier == "costDetail" {
-            println("OK")
+            let costDetailVC: CostDetailVC = segue.destinationViewController as CostDetailVC
+            costDetailVC.costDetail = tableCostDay[tableView.indexPathForSelectedRow()!.section][tableView.indexPathForSelectedRow()!.row]
         }
     }
     
     //UITableViewDataSorce
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
-        return tableOfDays.count
+        return tableDays.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableCostPerSection = []
-            var number = 0
-            for dayC in tableOfCousts {
-                if Date.getDateDay(date: dayC.date) == Date.getDateDay(date: tableOfDays[section].dan) {
-                    var cost:CostStruct = CostStruct(name: dayC.name, category: dayC.category, repeat: "\(dayC.repeat)", cost: dayC.cost)
-                    tableCostPerSection.append(cost)
-                    number++
-                }
-            }
-            return number
+        if tableDays[section].1 {
+
+            return tableDays[section].0.numberCost.integerValue
+            //return tableDays[section].0.numberCost as Int
+        }
+        return 0
     }
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        tableCostDay = []
+        
+        for day in tableDays {
+            costDataForDay(day: day.0.date)
+        }
+        
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as Cell
-        cell.celllabel.text = tableCostPerSection[indexPath.row].name + "      € " + tableCostPerSection[indexPath.row].cost
+    
+        cell.labelCategory.text = tableCostDay[indexPath.section][indexPath.row].category
+        cell.labelCategory.textColor = UIColor.darkGrayColor()
+        cell.labelCategory.sizeToFit()
+        cell.labelCategory.frame.origin = CGPoint(x: 10, y: 12)
+        
+        cell.labelName.text = tableCostDay[indexPath.section][indexPath.row].name
+        cell.labelName.textColor = UIColor.lightGrayColor()
+        cell.labelName.sizeToFit()
+        cell.labelName.frame.origin = CGPoint(x: (cell.labelCategory.frame.width + 20), y: 12)
+        
+        cell.labelCost.text = String(format: "€%.2f", (tableCostDay[indexPath.section][indexPath.row].cost).floatValue)
+        cell.labelCost.textColor = UIColor.lightGrayColor()
+        cell.labelCost.sizeToFit()
+        cell.labelCost.frame.origin = CGPoint(x: view.bounds.width - cell.labelCost.bounds.width - 40, y: 12)
+        
         
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+     
         return cell
     }
     
     func toggleCell(sender: UIButton) {
-        if tableDayDisplay[sender.tag].toggle == true {
-            tableDayDisplay[sender.tag].toggle == false
-        }else{
-        tableDayDisplay[sender.tag].toggle == true
+        if tableDays[sender.tag].1 {
+            tableDays[sender.tag].1 = false
+        }else {
+            tableDays[sender.tag].1 = true
         }
-        /*
-        if dateTable[sender.tag].2 == true {
-            dateTable[sender.tag].2 = false
-        }else{
-            dateTable[sender.tag].2 = true
-        }
-*/
+        
         tableView.reloadData()
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         var cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as HeaderCell
-        cell.dateLabel.text = Date.toString(date: tableOfDays[section].dan)
-        cell.monthlyCostsLabel.text = "€\(tableOfDays[section].skupniStroski)"
+        cell.dateLabel.text = Date.toString(date:tableDays[section].0.date)
+        var cost:Float = tableDays[section].0.costs.floatValue
+     //   println(cost)
+        cell.monthlyCostsLabel.text = String(format: "€%.2f", cost)
+        
+        
         var buttonPressed = UIButton(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: cell.bounds.height))
         buttonPressed.tag = section
         cell.addSubview(buttonPressed)
@@ -157,13 +146,36 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("Row: \(indexPath.row)")
         performSegueWithIdentifier("costDetail", sender: self)
     }
     
     
     
     //Helper Funct
+    func getDaysFromCoreData(){
+        let fetchRequest = NSFetchRequest(entityName: "DateDay")
+        let objectsDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
+        
+        for object in objectsDay {
+            tableDays += [(object,true)]
+        }
+    }
+    
+    func costDataForDay(#day: NSDate) {
+        let fetchRequest = NSFetchRequest(entityName: "Cost")
+        //fetchRequest.predicate = NSPredicate(format: "date")
+        
+        let exprTitle = NSExpression(forKeyPath: "date")
+        let exprValue = NSExpression(forConstantValue: day)
+        let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
+        
+        fetchRequest.predicate = predicate
+        var x = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [Cost]
+       // println(x.count)
+        tableCostDay += [x]
+        
+    }
+    
     func setPlus() {
         
         plusButton = UIButton(frame: CGRect(x: 10, y: self.view.bounds.height * 0.9, width: 60, height: 60))

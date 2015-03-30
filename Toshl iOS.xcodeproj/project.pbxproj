@@ -7,18 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D31818BE1AC57DB30098348D /* DayStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31818BD1AC57DB30098348D /* DayStruct.swift */; };
 		D3412C151AC4B54200C04B00 /* CostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3412C141AC4B54200C04B00 /* CostDetailVC.swift */; };
 		D354B5FD1AC4388300EA3341 /* PathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D354B5FC1AC4388300EA3341 /* PathView.swift */; };
+		D37CC3231AC943C000F26CF0 /* DateDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37CC3221AC943C000F26CF0 /* DateDay.swift */; };
+		D37CC3251AC951F200F26CF0 /* Cost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37CC3241AC951F200F26CF0 /* Cost.swift */; };
 		D3AC24431AC2A2E2000639B8 /* CostsRevenuesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC24421AC2A2E2000639B8 /* CostsRevenuesVC.swift */; };
 		D3AC24451AC2A3BE000639B8 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC24441AC2A3BE000639B8 /* Date.swift */; };
 		D3AC24471AC2A89F000639B8 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC24461AC2A89F000639B8 /* HeaderCell.swift */; };
 		D3AC24491AC2BD24000639B8 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC24481AC2BD24000639B8 /* Cell.swift */; };
 		D3AC244D1AC2C84B000639B8 /* AddCostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC244C1AC2C84B000639B8 /* AddCostsVC.swift */; };
 		D3B29D1F1AC546CE00E0127A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B29D1E1AC546CE00E0127A /* CoreData.framework */; };
-		D3B29D331AC56A6C00E0127A /* Cost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B29D321AC56A6C00E0127A /* Cost.swift */; };
-		D3B29D371AC56DD100E0127A /* DanEntiteta.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B29D361AC56DD100E0127A /* DanEntiteta.swift */; };
-		D3B29D391AC5765200E0127A /* CostStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B29D381AC5765200E0127A /* CostStruct.swift */; };
 		D3CCBA401AC1B7B900E4194C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CCBA3F1AC1B7B900E4194C /* AppDelegate.swift */; };
 		D3CCBA431AC1B7B900E4194C /* Toshl_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D3CCBA411AC1B7B900E4194C /* Toshl_iOS.xcdatamodeld */; };
 		D3CCBA481AC1B7B900E4194C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3CCBA461AC1B7B900E4194C /* Main.storyboard */; };
@@ -38,18 +36,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D31818BD1AC57DB30098348D /* DayStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayStruct.swift; sourceTree = "<group>"; };
 		D3412C141AC4B54200C04B00 /* CostDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CostDetailVC.swift; path = ../CostDetailVC.swift; sourceTree = "<group>"; };
 		D354B5FC1AC4388300EA3341 /* PathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathView.swift; sourceTree = "<group>"; };
+		D37CC3221AC943C000F26CF0 /* DateDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateDay.swift; path = ../DateDay.swift; sourceTree = "<group>"; };
+		D37CC3241AC951F200F26CF0 /* Cost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cost.swift; sourceTree = "<group>"; };
 		D3AC24421AC2A2E2000639B8 /* CostsRevenuesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CostsRevenuesVC.swift; sourceTree = "<group>"; };
 		D3AC24441AC2A3BE000639B8 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D3AC24461AC2A89F000639B8 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		D3AC24481AC2BD24000639B8 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		D3AC244C1AC2C84B000639B8 /* AddCostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCostsVC.swift; path = ../AddCostsVC.swift; sourceTree = "<group>"; };
 		D3B29D1E1AC546CE00E0127A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		D3B29D321AC56A6C00E0127A /* Cost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cost.swift; path = ../Cost.swift; sourceTree = "<group>"; };
-		D3B29D361AC56DD100E0127A /* DanEntiteta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DanEntiteta.swift; sourceTree = "<group>"; };
-		D3B29D381AC5765200E0127A /* CostStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CostStruct.swift; sourceTree = "<group>"; };
 		D3CCBA3A1AC1B7B900E4194C /* Toshl iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toshl iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3CCBA3E1AC1B7B900E4194C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3CCBA3F1AC1B7B900E4194C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,8 +85,6 @@
 				D3AC24461AC2A89F000639B8 /* HeaderCell.swift */,
 				D354B5FC1AC4388300EA3341 /* PathView.swift */,
 				D3AC24421AC2A2E2000639B8 /* CostsRevenuesVC.swift */,
-				D31818BD1AC57DB30098348D /* DayStruct.swift */,
-				D3B29D381AC5765200E0127A /* CostStruct.swift */,
 			);
 			name = CostsRevenues;
 			sourceTree = "<group>";
@@ -124,8 +118,8 @@
 				D3CCBA491AC1B7B900E4194C /* Images.xcassets */,
 				D3CCBA4B1AC1B7B900E4194C /* LaunchScreen.xib */,
 				D3CCBA411AC1B7B900E4194C /* Toshl_iOS.xcdatamodeld */,
-				D3B29D321AC56A6C00E0127A /* Cost.swift */,
-				D3B29D361AC56DD100E0127A /* DanEntiteta.swift */,
+				D37CC3241AC951F200F26CF0 /* Cost.swift */,
+				D37CC3221AC943C000F26CF0 /* DateDay.swift */,
 				D3CCBA3D1AC1B7B900E4194C /* Supporting Files */,
 			);
 			path = "Toshl iOS";
@@ -257,18 +251,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D31818BE1AC57DB30098348D /* DayStruct.swift in Sources */,
+				D37CC3251AC951F200F26CF0 /* Cost.swift in Sources */,
 				D3AC24431AC2A2E2000639B8 /* CostsRevenuesVC.swift in Sources */,
+				D37CC3231AC943C000F26CF0 /* DateDay.swift in Sources */,
 				D354B5FD1AC4388300EA3341 /* PathView.swift in Sources */,
 				D3AC24471AC2A89F000639B8 /* HeaderCell.swift in Sources */,
 				D3CCBA431AC1B7B900E4194C /* Toshl_iOS.xcdatamodeld in Sources */,
 				D3CCBA401AC1B7B900E4194C /* AppDelegate.swift in Sources */,
-				D3B29D371AC56DD100E0127A /* DanEntiteta.swift in Sources */,
 				D3412C151AC4B54200C04B00 /* CostDetailVC.swift in Sources */,
 				D3AC244D1AC2C84B000639B8 /* AddCostsVC.swift in Sources */,
 				D3AC24451AC2A3BE000639B8 /* Date.swift in Sources */,
-				D3B29D391AC5765200E0127A /* CostStruct.swift in Sources */,
-				D3B29D331AC56A6C00E0127A /* Cost.swift in Sources */,
 				D3AC24491AC2BD24000639B8 /* Cell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

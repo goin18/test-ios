@@ -13,10 +13,93 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    func from(#year:Int, month:Int, day:Int) -> NSDate {
+        
+        var components = NSDateComponents()
+        components.year = year
+        components.month = month
+        components.day = day
+        components.timeZone = NSTimeZone(abbreviation: "UTC")
+        
+        var gregorianCalendar = NSCalendar(identifier: NSGregorianCalendar)!
+        var date = gregorianCalendar.dateFromComponents(components)
+        
+        return date!
+    }
+    
+    func initData(){
+        var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+        day1.date = from(year: 2015, month: 3, day: 30)
+        day1.costs = 31.00
+        day1.numberCost = 3
+        
+        var day2 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+        day2.date = from(year: 2015, month: 3, day: 29)
+        day2.costs = 42.50
+        day2.numberCost = 1
+
+        var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        cost1.name = "internet"
+        cost1.category = "Home & Utilities"
+        cost1.toAccount = "Bank"
+        cost1.date = from(year: 2015, month: 3, day: 30)
+        cost1.repeat = 1
+        cost1.cost = 15.00
+        
+        var cost2 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        cost2.name = "shop"
+        cost2.category = "Home & Utilities"
+        cost2.toAccount = "Bank"
+        cost2.date = from(year: 2015, month: 3, day: 30)
+        cost2.repeat = 1
+        cost2.cost = 10.30
+        
+        var cost3 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        cost3.name = "market"
+        cost3.category = "Home & Utilities"
+        cost3.toAccount = "Bank"
+        cost3.date = from(year: 2015, month: 3, day: 30)
+        cost3.repeat = 1
+        cost3.cost = 5.70
+        
+        var cost4 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        cost4.name = "skipass"
+        cost4.category = "Home & Utilities"
+        cost4.toAccount = "Bank"
+        cost4.date = from(year: 2015, month: 3, day: 29)
+        cost4.repeat = 1
+        cost4.cost = 42.50
+        
+        var dayRelation1 = day1.mutableSetValueForKey("costsDay")
+        dayRelation1.addObject(cost1)
+        dayRelation1.addObject(cost2)
+        dayRelation1.addObject(cost3)
+        
+        var dayRelation2 = day2.mutableSetValueForKey("costsDay")
+        dayRelation2.addObject(cost4)
+        
+        self.saveContext()
+        
+    }
+    
+    func deleteAllObject(entityName: String){
+        let fetchRequest = NSFetchRequest(entityName: entityName)
+        let objects = self.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)
+        
+        for object in objects as [NSManagedObject] {
+            self.managedObjectContext?.deleteObject(object)
+        }
+    }
+
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        //pobrisi ze kreirane
+        deleteAllObject("DateDay")
+        deleteAllObject("Cost")
+        initData()
+
         return true
     }
 

@@ -16,10 +16,10 @@ class Date {
         components.year = year
         components.month = month
         components.day = day
+        components.timeZone = NSTimeZone(abbreviation: "UTC")
         
         var gregorianCalendar = NSCalendar(identifier: NSGregorianCalendar)!
         var date = gregorianCalendar.dateFromComponents(components)
-        
         return date!
     }
     
@@ -49,4 +49,5 @@ class Date {
         
         return day
     }
+
 }

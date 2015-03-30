@@ -10,5 +10,10 @@ import UIKit
 
 class Cell: UITableViewCell {
 
-    @IBOutlet weak var celllabel: UILabel!
+    @IBOutlet weak var labelCategory: UILabel!
+    @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var labelCost: UILabel!
+
+
+    
 }
