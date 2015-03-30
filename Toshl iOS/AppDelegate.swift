@@ -96,10 +96,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         //pobrisi ze kreirane
-        deleteAllObject("DateDay")
+       /* deleteAllObject("DateDay")
         deleteAllObject("Cost")
         initData()
-
+*/
         return true
     }
 
