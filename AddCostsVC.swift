@@ -110,6 +110,26 @@ class AddCostsVC: UIViewController {
             
             appDelegete.saveContext()
             
+        }else{
+            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+            cost1.name = "internet"
+            cost1.category = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
+            cost1.toAccount = "Bank"
+            cost1.date = Date.from(year: 2015, month: mounth, day: day)
+            cost1.repeat = Int(arc4random_uniform(UInt32(20)))
+            var costT = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
+            cost1.cost = costT!
+            
+            var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+            day1.date = Date.from(year: 2015, month: mounth, day: day)
+            var cost = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
+            day1.costs = cost!
+            day1.numberCost = 1
+            
+            var dayRelation1 = day1.mutableSetValueForKey("costsDay")
+            dayRelation1.addObject(cost1)
+            
+            appDelegete.saveContext()
         }
         
      
