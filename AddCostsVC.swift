@@ -80,7 +80,10 @@ class AddCostsVC: UIViewController {
     
     @IBAction func saveToCoreData(sender: UIBarButtonItem) {
         println("Save To CoreData")
-        
+        saveToCoreDataButtons()
+    }
+    
+    func saveToCoreDataButtons(){
         var fetchRequest = NSFetchRequest(entityName: "DateDay")
 
         var date = NSDate()
@@ -131,7 +134,6 @@ class AddCostsVC: UIViewController {
             
             appDelegete.saveContext()
         }
-        
      
         navigationController?.popViewControllerAnimated(true)
         
@@ -205,18 +207,24 @@ class AddCostsVC: UIViewController {
             numberLabel.text = numberLabel.text! + number
         }
     }
-    
+
     func addOperator(button: UIButton){
         let oper = button.currentTitle!
-        
+        println(oper)
         switch oper {
             case ",":
-                println(".")
+                println(",")
             case ">":
-                println(".")
+                saveToCoreDataButtons()
         default:
             println("Error operator")
         }
+    }
+    
+    func notImplemented(button: UIButton) {
+        var alertController = UIAlertController(title: "Button not implemented", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func setupSecondContainder(){
@@ -251,6 +259,7 @@ class AddCostsVC: UIViewController {
         removeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         removeButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 20)
         removeButton.backgroundColor = UIColor(red: 102/255, green: 102/255, blue: 102/255, alpha: 1.0)
+        removeButton.addTarget(self, action: "notImplemented:", forControlEvents: UIControlEvents.TouchUpInside)
         
         secondContainder.addSubview(oneButton)
         secondContainder.addSubview(twoButton)
@@ -284,6 +293,7 @@ class AddCostsVC: UIViewController {
         sumButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         sumButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 20)
         sumButton.backgroundColor = UIColor(red: 77/255, green: 77/255, blue: 77/255, alpha: 1.0)
+        sumButton.addTarget(self, action: "notImplemented:", forControlEvents: UIControlEvents.TouchUpInside)
         
         secondContainder.addSubview(fourButton)
         secondContainder.addSubview(fiveButton)
@@ -317,6 +327,7 @@ class AddCostsVC: UIViewController {
         procentButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         procentButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 20)
         procentButton.backgroundColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1.0)
+        procentButton.addTarget(self, action: "notImplemented:", forControlEvents: UIControlEvents.TouchUpInside)
         
         secondContainder.addSubview(sevenButton)
         secondContainder.addSubview(eightButton)
@@ -341,6 +352,7 @@ class AddCostsVC: UIViewController {
         enterButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         enterButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 20)
         enterButton.backgroundColor = UIColor(red: 26/255, green: 26/255, blue: 26/255, alpha: 1.0)
+        enterButton.addTarget(self, action: "addOperator:", forControlEvents: UIControlEvents.TouchUpInside)
         
         secondContainder.addSubview(zeroButton)
         secondContainder.addSubview(comaButton)
@@ -348,11 +360,7 @@ class AddCostsVC: UIViewController {
     }
     
     func setupSecondContainerGray(){
-        /*
-        var fromAccount: UIView!
-        var toAccount: UIView!
-        var date:UIView!
-*/
+
         let x = CGRect(x: self.view.bounds.origin.x, y: self.view.bounds.height * kHalf, width: self.view.bounds.width, height: self.view.bounds.height * kHalf)
         self.secondContainder = UIView(frame: x)
         secondContainder.backgroundColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)

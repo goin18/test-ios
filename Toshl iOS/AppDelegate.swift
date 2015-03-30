@@ -13,28 +13,15 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    func from(#year:Int, month:Int, day:Int) -> NSDate {
-        
-        var components = NSDateComponents()
-        components.year = year
-        components.month = month
-        components.day = day
-        components.timeZone = NSTimeZone(abbreviation: "UTC")
-        
-        var gregorianCalendar = NSCalendar(identifier: NSGregorianCalendar)!
-        var date = gregorianCalendar.dateFromComponents(components)
-        
-        return date!
-    }
     
     func initData(){
         var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
-        day1.date = from(year: 2015, month: 3, day: 30)
+        day1.date = Date.from(year: 2015, month: 3, day: 30)
         day1.costs = 31.00
         day1.numberCost = 3
         
         var day2 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
-        day2.date = from(year: 2015, month: 3, day: 29)
+        day2.date = Date.from(year: 2015, month: 3, day: 29)
         day2.costs = 42.50
         day2.numberCost = 1
 
@@ -42,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost1.name = "internet"
         cost1.category = "Home & Utilities"
         cost1.toAccount = "Bank"
-        cost1.date = from(year: 2015, month: 3, day: 30)
+        cost1.date = Date.from(year: 2015, month: 3, day: 30)
         cost1.repeat = 1
         cost1.cost = 15.00
         
@@ -50,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost2.name = "shop"
         cost2.category = "Home & Utilities"
         cost2.toAccount = "Bank"
-        cost2.date = from(year: 2015, month: 3, day: 30)
+        cost2.date = Date.from(year: 2015, month: 3, day: 30)
         cost2.repeat = 1
         cost2.cost = 10.30
         
@@ -58,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost3.name = "market"
         cost3.category = "Home & Utilities"
         cost3.toAccount = "Bank"
-        cost3.date = from(year: 2015, month: 3, day: 30)
+        cost3.date = Date.from(year: 2015, month: 3, day: 30)
         cost3.repeat = 1
         cost3.cost = 5.70
         
@@ -66,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost4.name = "skipass"
         cost4.category = "Home & Utilities"
         cost4.toAccount = "Bank"
-        cost4.date = from(year: 2015, month: 3, day: 29)
+        cost4.date = Date.from(year: 2015, month: 3, day: 29)
         cost4.repeat = 1
         cost4.cost = 42.50
         
