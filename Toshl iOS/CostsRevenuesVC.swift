@@ -49,7 +49,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         tableDays = []
         getDaysFromCoreData()
-    
+        setButtonToBeginState()
      
         tableView.reloadData()
     }
@@ -202,54 +202,63 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         var point = CGPoint(x: xX, y: yY)
         
-        let redArea = view.bounds.width / 1.0/3.0
-        let greeArea = view.bounds.width / 1.0/3.0
-        let greyArea = view.bounds.width / 1.0/3.0 * 2
+        let redArea = (view.bounds.width / 1.0/3.0) - 30
+        let greeArea = (view.bounds.width / 1.0/3.0) + 10
+        let greyArea = (view.bounds.width / 1.0/3.0 * 2) + 20
         
         let yBound = self.view.bounds.height * 0.80
         let yBoundSledi = self.view.bounds.height * 0.70
 
+        let centerPoint = CGPoint(x: view.bounds.width, y: view.bounds.height - 10)
+        let radiusMax = CGFloat(view.bounds.width - 15)
+        let radiusMin = CGFloat(view.bounds.width - 75)
+        let radiusMiddel = CGFloat(view.bounds.width - 45)
+        //println("radius: \(radius)")
+        
+        var dr = CGPoint(x: point.x - centerPoint.x, y: point.y - centerPoint.y)
+        var pointRadius = abs(sqrt(pow((point.x - centerPoint.x), 2) + pow((point.y - centerPoint.y), 2)))
+        //println("pointRadius: \(pointRadius)")
+        //println("radiusMiddel: \(radiusMiddel)")
+        var d = pointRadius - radiusMiddel
+       
+        var newPoint = CGPoint(x: point.x + d, y: point.y + d)
 
         if sender.state.hashValue == 2 {
-            
-            if point.y > yBound {
-                plusButton.center = point
-                if point.x < greeArea {
+           // println("ViewBound: \(CGPoint(x: view.bounds.width, y: view.bounds.height)))")
+            titleLabel.hidden = false
+        
+            var newPoint = CGPoint(x: point.x + d, y: point.y + d)
+            if pointRadius > radiusMin && pointRadius < radiusMax {
+                plusButton.center = newPoint
+                if newPoint.x < greeArea {
                     titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
-                    setTitleLabel(color: "red", point: point)
-                }else if point.x >= greeArea && point.x < greyArea {
+                    setTitleLabel(color: "red", point: newPoint)
+                }else if newPoint.x >= greeArea && point.x < greyArea {
                     titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "greenPlus"), forState: UIControlState.Normal)
-                    setTitleLabel(color: "green", point: point)
-                } else if point.x > greeArea {
+                    setTitleLabel(color: "green", point: newPoint)
+                } else if newPoint.x > greeArea {
                     titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "greyPlus"), forState: UIControlState.Normal)
-                    setTitleLabel(color: "grey", point: point)
+                    setTitleLabel(color: "grey", point: newPoint)
+                }else{
+                    setButtonToBeginState()
                 }
-            }else {
-                plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
-                plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
-                titleLabel.hidden = true
+            } else {
+                setButtonToBeginState()
             }
 
-        }else if sender.state.hashValue == 3 {
-            if point.y > yBound {
-              if point.x < greeArea {
-                performSegueWithIdentifier("addRed", sender: self)
-              }else if point.x >= greeArea && point.x < greyArea {
-                performSegueWithIdentifier("addGreen", sender: self)
-              } else if point.x > greeArea {
-                performSegueWithIdentifier("addGrey", sender: self)
-            }
-                
-                plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
-                plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
-                titleLabel.hidden = true
-            } else {
-                plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
-                plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
-                titleLabel.hidden = true
+        } else if sender.state.hashValue == 3 {
+            if pointRadius > radiusMin && pointRadius < radiusMax {
+                setButtonToBeginState()
+                if newPoint.x < greeArea {
+                     performSegueWithIdentifier("addRed", sender: self)
+                }else if newPoint.x >= greeArea && point.x < greyArea {
+                    performSegueWithIdentifier("addGreen", sender: self)
+                } else if newPoint.x > greeArea {
+                    performSegueWithIdentifier("addGrey", sender: self)
+                }
             }
         }
     }
@@ -290,6 +299,13 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         titleLabel.layer.cornerRadius = 10.0
         titleLabel.clipsToBounds = true
         
+
+    }
+    
+    func setButtonToBeginState(){
+        plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
+        plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
+        titleLabel.hidden = true
 
     }
     
