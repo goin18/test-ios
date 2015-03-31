@@ -15,6 +15,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var myPathView:PathView!
 
     var plusButton: UIButton!
+    var titleLabel: UILabel!
 
     let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
     let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
@@ -31,6 +32,9 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         navigationController?.navigationBar.barTintColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)
         
         setPlus()
+        titleLabel = UILabel()
+        titleLabel.hidden = true
+        view.addSubview(titleLabel)
         
         // Do any additional setup after loading the view.
     }
@@ -187,6 +191,8 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let panOnPoints = UIPanGestureRecognizer(target: self, action: Selector("panOnPoints:"))
         plusButton.addGestureRecognizer(panOnPoints)
         view.addSubview(plusButton)
+        
+        
     }
     
     func panOnPoints(sender:UIPanGestureRecognizer)
@@ -209,17 +215,22 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             if point.y > yBound {
                 plusButton.center = point
                 if point.x < greeArea {
+                    titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
+                    setTitleLabel(color: "red", point: point)
                 }else if point.x >= greeArea && point.x < greyArea {
+                    titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "greenPlus"), forState: UIControlState.Normal)
-                    
+                    setTitleLabel(color: "green", point: point)
                 } else if point.x > greeArea {
+                    titleLabel.hidden = false
                     plusButton.setImage(UIImage(named: "greyPlus"), forState: UIControlState.Normal)
+                    setTitleLabel(color: "grey", point: point)
                 }
             }else {
                 plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
                 plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
-              //  plusButton.center = point
+                titleLabel.hidden = true
             }
 
         }else if sender.state.hashValue == 3 {
@@ -231,13 +242,55 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
               } else if point.x > greeArea {
                 performSegueWithIdentifier("addGrey", sender: self)
             }
+                
                 plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
                 plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
+                titleLabel.hidden = true
             } else {
                 plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
                 plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
+                titleLabel.hidden = true
             }
         }
+    }
+    
+    func setTitleLabel(#color:String, point: CGPoint){
+        switch color {
+        case "red":
+            titleLabel.text = "Add expense"
+            titleLabel.backgroundColor = UIColor(red: 187/255, green: 45/255, blue: 62/255, alpha: 1.0)
+            var textLabellength = titleLabel.bounds.width / 2
+            if point.x > textLabellength {
+                textLabellength = textLabellength + (point.x - textLabellength)
+            }
+             titleLabel.center = CGPoint(x: textLabellength, y: point.y - 65)
+        case "green":
+            titleLabel.text = "Add income"
+            titleLabel.backgroundColor = UIColor(red: 29/255, green: 156/255, blue: 61/255, alpha: 1.0)
+            titleLabel.center = CGPoint(x: point.x, y: point.y - 65)
+        case "grey":
+            titleLabel.text = "Make transaction"
+            titleLabel.backgroundColor = UIColor(red: 129/255, green: 127/255, blue: 121/255, alpha: 1.0)
+            var textLabellength = titleLabel.bounds.width / 2
+            if point.x > (view.bounds.width - textLabellength) {
+                textLabellength = (view.bounds.width - textLabellength)
+                titleLabel.center = CGPoint(x: textLabellength, y: point.y - 65)
+            }else {
+                titleLabel.center = CGPoint(x: point.x, y: point.y - 65)
+            }
+            
+        default:
+            println("Error")
+        }
+        
+        titleLabel.font = UIFont(name: "AmericanTypewriter", size: 14)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.bounds.size = CGSize(width: 150, height: 35)
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.layer.cornerRadius = 10.0
+        titleLabel.clipsToBounds = true
+        
+
     }
     
     
