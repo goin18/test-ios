@@ -74,6 +74,7 @@ class AddCostsVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @IBAction func removeButtonItem(sender: UIBarButtonItem) {
         navigationController?.popViewControllerAnimated(true)
     }
@@ -89,10 +90,10 @@ class AddCostsVC: UIViewController {
         var date = NSDate()
         var day = Date.getDateDay(date: date)
         var mounth = Date.getDateMounth(date: date)
-        var year = "2015"
+        var year = 2015
         
         let exprTitle = NSExpression(forKeyPath: "date")
-        let exprValue = NSExpression(forConstantValue: Date.from(year: 2015, month: mounth, day: day))
+        let exprValue = NSExpression(forConstantValue: Date.from(year: year, month: mounth, day: day))
         let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
         fetchRequest.predicate = predicate
@@ -100,34 +101,22 @@ class AddCostsVC: UIViewController {
         
         if dateExist.count != 0 {
             var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
-            cost1.name = "internet"
-            cost1.category = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
-            cost1.toAccount = "Bank"
-            cost1.date = Date.from(year: 2015, month: mounth, day: day)
-            cost1.repeat = Int(arc4random_uniform(UInt32(20)))
-            var costT = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
-            cost1.cost = costT!
+            cost1 = preperCostForSaveing(cost1, year: year, mounth: mounth, day: day)
             
-            dateExist[0].costs = costT! + (dateExist[0].costs).floatValue
+            let costNumber = cost1.cost.floatValue
+            dateExist[0].costs = costNumber + (dateExist[0].costs).floatValue
             dateExist[0].numberCost = 1 +  dateExist[0].numberCost.integerValue
             
             appDelegete.saveContext()
             
-        }else{
+        }else {
             var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
-            cost1.name = "internet"
-            cost1.category = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
-            cost1.toAccount = "Bank"
-            cost1.date = Date.from(year: 2015, month: mounth, day: day)
-            cost1.repeat = Int(arc4random_uniform(UInt32(20)))
-            var costT = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
-            cost1.cost = costT!
+            cost1 = preperCostForSaveing(cost1, year: year, mounth: mounth, day: day)
             
             var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
-            day1.date = Date.from(year: 2015, month: mounth, day: day)
-            var cost = NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue
-            day1.costs = cost!
+            day1.date = Date.from(year: year, month: mounth, day: day)
             day1.numberCost = 1
+            day1.costs = cost1.cost.floatValue
             
             var dayRelation1 = day1.mutableSetValueForKey("costsDay")
             dayRelation1.addObject(cost1)
@@ -139,9 +128,61 @@ class AddCostsVC: UIViewController {
         
     }
     
+    func preperCostForSaveing(cost:Cost, year: Int, mounth: Int, day: Int) -> Cost {
+        cost.name = "internet"
+        cost.category = tableExpensiveCategory[Int(arc4random_uniform(UInt32(tableExpensiveCategory.count)))]
+        cost.toAccount = "Bank"
+        cost.date = Date.from(year: year, month: mounth, day: day)
+        cost.repeat = Int(arc4random_uniform(UInt32(20)))
+        cost.cost = (NSNumberFormatter().numberFromString(numberLabel.text!)?.floatValue)!
+        
+        return cost
+    }
+    
+    
+    func addNumber(button: UIButton){
+        let number = button.currentTitle!
+       // println("Number pressed: \(number)")
+        if numberLabel.text == "0" {
+            numberLabel.text = number
+        }else {
+            numberLabel.text = numberLabel.text! + number
+        }
+    }
+
+    func addOperator(button: UIButton){
+        let oper = button.currentTitle!
+        println(oper)
+        switch oper {
+            case ",":
+                println(",")
+            case ">":
+                saveToCoreDataButtons()
+            case "←":
+                if numberLabel.text != "0" {
+                    println("\(countElements(numberLabel.text!))")
+                    if countElements(numberLabel.text!) > 1 {
+                        var s = numberLabel.text
+                        numberLabel.text = dropLast(s!)
+                    }else {
+                        numberLabel.text = "0"
+                    }
+            }
+        default:
+            println("Error operator")
+        }
+    }
+    
+    //alert for the buttons that dont have any action
+    func notImplemented(button: UIButton) {
+        var alertController = UIAlertController(title: "Button not implemented", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    //color of the buttons number
     func getSegurMode(){
         if segueMode == "addRed" {
-          //  var one:Dictionary<String, UIColor> =
             colorTable = [
                 ["one" : UIColor(red: 254/255, green: 184/255, blue: 152/255, alpha: 1.0)],
                 ["two" : UIColor(red: 237/255, green: 135/255, blue: 116/255, alpha: 1.0)],
@@ -172,10 +213,11 @@ class AddCostsVC: UIViewController {
                 ["coma" : UIColor(red: 9/255, green: 91/255, blue: 84/255, alpha: 1.0)]
             ]
             
-             enterArrow.tintColor = UIColor(red: 9/255, green: 91/255, blue: 84/255, alpha: 1.0)
+            enterArrow.tintColor = UIColor(red: 9/255, green: 91/255, blue: 84/255, alpha: 1.0)
         }
     }
     
+    //Priprava kako bo kaj zgledalo
     func setupFirstContainer(){
         let x = CGRect(x: 0, y:0 , width: self.view.bounds.width, height: self.view.bounds.height * kHalf)
         self.firstContainder = UIView(frame: x)
@@ -196,35 +238,6 @@ class AddCostsVC: UIViewController {
         
         firstContainder.addSubview(euroLabel)
         firstContainder.addSubview(numberLabel)
-    }
-    
-    func addNumber(button: UIButton){
-        let number = button.currentTitle!
-       // println("Number pressed: \(number)")
-        if numberLabel.text == "0" {
-            numberLabel.text = number
-        }else {
-            numberLabel.text = numberLabel.text! + number
-        }
-    }
-
-    func addOperator(button: UIButton){
-        let oper = button.currentTitle!
-        println(oper)
-        switch oper {
-            case ",":
-                println(",")
-            case ">":
-                saveToCoreDataButtons()
-        default:
-            println("Error operator")
-        }
-    }
-    
-    func notImplemented(button: UIButton) {
-        var alertController = UIAlertController(title: "Button not implemented", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func setupSecondContainder(){
@@ -255,11 +268,11 @@ class AddCostsVC: UIViewController {
         threeButton.addTarget(self, action: "addNumber:", forControlEvents: UIControlEvents.TouchUpInside)
         
         removeButton = UIButton(frame: CGRect(x: secondContainder.frame.width * kFourth * 3, y: 0 , width: secondContainder.frame.width * kFourth, height: secondContainder.frame.height * kFourth))
-        removeButton.setTitle("🔙", forState: UIControlState.Normal)
+        removeButton.setTitle("←", forState: UIControlState.Normal)
         removeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         removeButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 20)
         removeButton.backgroundColor = UIColor(red: 102/255, green: 102/255, blue: 102/255, alpha: 1.0)
-        removeButton.addTarget(self, action: "notImplemented:", forControlEvents: UIControlEvents.TouchUpInside)
+        removeButton.addTarget(self, action: "addOperator:", forControlEvents: UIControlEvents.TouchUpInside)
         
         secondContainder.addSubview(oneButton)
         secondContainder.addSubview(twoButton)
