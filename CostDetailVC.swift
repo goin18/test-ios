@@ -13,7 +13,7 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
     @IBOutlet weak var tableView: UITableView!
     
-    var tableImage:[String] = []
+    let tableImage:[String] = ["home", "internet", "bank", "numberTwo"]
     var costDetail:Cost!
     var tableCostDetail:[String] = []
     
@@ -26,11 +26,9 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableImage += ["home", "internet", "bank", "numberTwo"]
         tableCostDetail += [costDetail.category, costDetail.name, costDetail.toAccount, Date.toString(date: costDetail.date), "\(costDetail.repeat)"]
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,15 +63,7 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 100
-        }
-        else {
-            return 44
-        }
-    }
-    
+    //UITableViewDataSorce - Header
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             var costView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
@@ -92,18 +82,19 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             var costView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
             costView.backgroundColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)
             
-             return costView
+            return costView
         }
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-         if section == 1 {
-            return 220
-         } else {
-        return 0
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 100
+        } else {
+            return 44
         }
     }
     
+    //UITableViewDataSorce - Footer
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 1 {
             var costView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.bounds.height - tableView.bounds.height))
@@ -112,7 +103,7 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             var deleteButton = UIButton(frame: CGRect(x: 10, y: 15, width: view.frame.width - 20, height: 30))
             deleteButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
             deleteButton.setTitle("Delete", forState: UIControlState.Normal)
-            deleteButton.addTarget(self, action: "removeDataFromCoreData:", forControlEvents: UIControlEvents.TouchUpInside)
+            deleteButton.addTarget(self, action: "removeDataFromCoreDataButton:", forControlEvents: UIControlEvents.TouchUpInside)
             costView.addSubview(deleteButton)
             
             return costView
@@ -120,21 +111,30 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         return nil
     }
     
-    func removeDataFromCoreData(button: UIButton){
-        var fetchRequest = NSFetchRequest(entityName: "DateDay")
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 220
+        } else {
+            return 0
+        }
+    }
+    
+    //ButtonDelete
+    func removeDataFromCoreDataButton(button: UIButton){
+        let fetchRequest = NSFetchRequest(entityName: "DateDay")
         
         let exprTitle = NSExpression(forKeyPath: "date")
         let exprValue = NSExpression(forConstantValue: costDetail.date)
         let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
         fetchRequest.predicate = predicate
-        var x = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
+        var requestDateDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
         
-        if x[0].numberCost.intValue > 1 {
-            x[0].numberCost = x[0].numberCost.integerValue - 1
-            x[0].costs = x[0].costs.floatValue - costDetail.cost.floatValue
+        if requestDateDay[0].numberCost.intValue > 1 {
+            requestDateDay[0].numberCost = requestDateDay[0].numberCost.integerValue - 1
+            requestDateDay[0].costs = requestDateDay[0].costs.floatValue - costDetail.cost.floatValue
         }else{
-            managedObjectContext!.deleteObject(x[0])
+            managedObjectContext!.deleteObject(requestDateDay[0])
         }
         
         managedObjectContext!.deleteObject(costDetail)

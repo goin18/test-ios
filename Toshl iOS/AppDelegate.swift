@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    //metoda za testiranje - lahko se tudi odstrani!
     func initData(){
         var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
         day1.date = Date.from(year: 2015, month: 3, day: 30)
@@ -69,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    //testiranje - brisanje vseh objektov, ki so v podani entiteti
     func deleteAllObject(entityName: String){
         let fetchRequest = NSFetchRequest(entityName: entityName)
         let objects = self.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)
@@ -86,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        /* deleteAllObject("DateDay")
         deleteAllObject("Cost")
         initData()
-*/
+        */
         return true
     }
 

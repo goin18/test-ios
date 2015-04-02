@@ -31,7 +31,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
   
         navigationController?.navigationBar.barTintColor = UIColor(red: 243/255, green: 241/255, blue: 230/255, alpha: 1.0)
         
-        setPlus()
+        setPlusButton()
         titleLabel = UILabel()
         titleLabel.hidden = true
         view.addSubview(titleLabel)
@@ -54,7 +54,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.reloadData()
     }
     
-    //Segue
+    //Segue - navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "addGreen" {
@@ -79,9 +79,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableDays[section].1 {
-
             return tableDays[section].0.numberCost.integerValue
-            //return tableDays[section].0.numberCost as Int
         }
         return 0
     }
@@ -111,35 +109,22 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         cell.labelCost.sizeToFit()
         cell.labelCost.frame.origin = CGPoint(x: view.bounds.width - cell.labelCost.bounds.width - 40, y: 12)
         
-        
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
      
         return cell
     }
     
-    func toggleCell(sender: UIButton) {
-        if tableDays[sender.tag].1 {
-            tableDays[sender.tag].1 = false
-        }else {
-            tableDays[sender.tag].1 = true
-        }
-        
-        tableView.reloadData()
-    }
-
+    //TableViewDataSorce - Header
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         var cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as HeaderCell
-        cell.dateLabel.text = Date.toString(date:tableDays[section].0.date)
         var cost:Float = tableDays[section].0.costs.floatValue
-     //   println(cost)
+        cell.dateLabel.text = Date.toString(date:tableDays[section].0.date)
         cell.monthlyCostsLabel.text = String(format: "€%.2f", cost)
         
-        
         var buttonPressed = UIButton(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: cell.bounds.height))
+        buttonPressed.addTarget(self, action: "toggleCellPushDown:", forControlEvents: UIControlEvents.TouchUpInside)
         buttonPressed.tag = section
         cell.addSubview(buttonPressed)
-        buttonPressed.addTarget(self, action: "toggleCell:", forControlEvents: UIControlEvents.TouchUpInside)
         
         return cell
     }
@@ -148,12 +133,19 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         return 44
     }
     
+    func toggleCellPushDown(sender: UIButton) {
+        if tableDays[sender.tag].1 {
+            tableDays[sender.tag].1 = false
+        }else {
+            tableDays[sender.tag].1 = true
+        }
+        tableView.reloadData()
+    }
+    
     //UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         performSegueWithIdentifier("costDetail", sender: self)
     }
-    
-    
     
     //Helper Funct
     func getDaysFromCoreData(){
@@ -169,7 +161,6 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func costDataForDay(#day: NSDate) {
         let fetchRequest = NSFetchRequest(entityName: "Cost")
-        //fetchRequest.predicate = NSPredicate(format: "date")
         
         let exprTitle = NSExpression(forKeyPath: "date")
         let exprValue = NSExpression(forConstantValue: day)
@@ -182,7 +173,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
     }
     
-    func setPlus() {
+    func setPlusButton() {
         
         plusButton = UIButton(frame: CGRect(x: 10, y: self.view.bounds.height * 0.9, width: 60, height: 60))
         plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
@@ -191,12 +182,10 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let panOnPoints = UIPanGestureRecognizer(target: self, action: Selector("panOnPoints:"))
         plusButton.addGestureRecognizer(panOnPoints)
         view.addSubview(plusButton)
-        
-        
+
     }
     
-    func panOnPoints(sender:UIPanGestureRecognizer)
-    {
+    func panOnPoints(sender:UIPanGestureRecognizer) {
         var xX:CGFloat = sender.locationInView(view).x
         var yY:CGFloat = sender.locationInView(view).y
         
@@ -211,8 +200,8 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         let centerPoint = CGPoint(x: view.bounds.width, y: view.bounds.height - 10)
         let radiusMax = CGFloat(view.bounds.width - 15)
-        let radiusMin = CGFloat(view.bounds.width - 75)
-        let radiusMiddel = CGFloat(view.bounds.width - 45)
+        let radiusMin = CGFloat(view.bounds.width - 100)
+        let radiusMiddel = CGFloat(view.bounds.width - 50)
         //println("radius: \(radius)")
         
         var dr = CGPoint(x: point.x - centerPoint.x, y: point.y - centerPoint.y)
@@ -299,14 +288,12 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         titleLabel.layer.cornerRadius = 10.0
         titleLabel.clipsToBounds = true
         
-
     }
     
     func setButtonToBeginState(){
         plusButton.frame.origin = CGPoint(x: 10, y: self.view.bounds.height - 70)
         plusButton.setImage(UIImage(named: "redPlus"), forState: UIControlState.Normal)
         titleLabel.hidden = true
-
     }
     
     
