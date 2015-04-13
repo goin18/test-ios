@@ -16,17 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //metoda za testiranje - lahko se tudi odstrani!
     func initData(){
-        var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+        var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as! DateDay
         day1.date = Date.from(year: 2015, month: 3, day: 30)
         day1.costs = 31.00
         day1.numberCost = 3
         
-        var day2 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+        var day2 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as! DateDay
         day2.date = Date.from(year: 2015, month: 3, day: 29)
         day2.costs = 42.50
         day2.numberCost = 1
 
-        var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
         cost1.name = "internet"
         cost1.category = "Home & Utilities"
         cost1.toAccount = "Bank"
@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost1.repeat = 1
         cost1.cost = 15.00
         
-        var cost2 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        var cost2 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
         cost2.name = "shop"
         cost2.category = "Home & Utilities"
         cost2.toAccount = "Bank"
@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost2.repeat = 1
         cost2.cost = 10.30
         
-        var cost3 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        var cost3 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
         cost3.name = "market"
         cost3.category = "Home & Utilities"
         cost3.toAccount = "Bank"
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cost3.repeat = 1
         cost3.cost = 5.70
         
-        var cost4 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+        var cost4 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
         cost4.name = "skipass"
         cost4.category = "Home & Utilities"
         cost4.toAccount = "Bank"
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fetchRequest = NSFetchRequest(entityName: entityName)
         let objects = self.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)
         
-        for object in objects as [NSManagedObject] {
+        for object in objects as! [NSManagedObject] {
             self.managedObjectContext?.deleteObject(object)
         }
     }
@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "si.goin.mobileDev.Toshl_iOS" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {

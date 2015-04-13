@@ -48,8 +48,8 @@ class AddCostsVC: UIViewController {
     let kHalf:CGFloat = 1.0/2.0
     let kFourth:CGFloat = 1.0/4.0
     
-    let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let appDelegete = (UIApplication.sharedApplication().delegate as! AppDelegate)
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     var tableExpensiveCategory = ["Home & Utilities", "Food & Drinks", "Charity", "Transport", "FInancial Instruments"]
     
@@ -97,10 +97,10 @@ class AddCostsVC: UIViewController {
         let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
         fetchRequest.predicate = predicate
-        var dateExist = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
+        var dateExist = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [DateDay]
         
         if dateExist.count != 0 {
-            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
             cost1 = preperCostForSaveing(cost1, year: year, mounth: mounth, day: day)
             
             let costNumber = cost1.cost.floatValue
@@ -110,10 +110,10 @@ class AddCostsVC: UIViewController {
             appDelegete.saveContext()
             
         }else {
-            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as Cost
+            var cost1 = NSEntityDescription.insertNewObjectForEntityForName("Cost", inManagedObjectContext: self.managedObjectContext!) as! Cost
             cost1 = preperCostForSaveing(cost1, year: year, mounth: mounth, day: day)
             
-            var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as DateDay
+            var day1 = NSEntityDescription.insertNewObjectForEntityForName("DateDay", inManagedObjectContext: self.managedObjectContext!) as! DateDay
             day1.date = Date.from(year: year, month: mounth, day: day)
             day1.numberCost = 1
             day1.costs = cost1.cost.floatValue
@@ -160,8 +160,8 @@ class AddCostsVC: UIViewController {
                 saveToCoreDataButtons()
             case "←":
                 if numberLabel.text != "0" {
-                    println("\(countElements(numberLabel.text!))")
-                    if countElements(numberLabel.text!) > 1 {
+                    println("\(count(numberLabel.text!))")
+                    if count(numberLabel.text!) > 1 {
                         var s = numberLabel.text
                         numberLabel.text = dropLast(s!)
                     }else {

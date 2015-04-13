@@ -17,8 +17,8 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var plusButton: UIButton!
     var titleLabel: UILabel!
 
-    let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let appDelegete = (UIApplication.sharedApplication().delegate as! AppDelegate)
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     var tableDays:[(DateDay, Bool)] = []
     var tableCostDay:[[Cost]] = []
@@ -58,16 +58,16 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "addGreen" {
-            let addCostslVC: AddCostsVC = segue.destinationViewController as AddCostsVC
+            let addCostslVC: AddCostsVC = segue.destinationViewController as! AddCostsVC
             addCostslVC.segueMode = "addGreen"
         } else if segue.identifier == "addRed" {
-            let addCostslVC: AddCostsVC = segue.destinationViewController as AddCostsVC
+            let addCostslVC: AddCostsVC = segue.destinationViewController as! AddCostsVC
             addCostslVC.segueMode = "addRed"
         }else if segue.identifier == "addGrey" {
-            let addCostslVC: AddCostsVC = segue.destinationViewController as AddCostsVC
+            let addCostslVC: AddCostsVC = segue.destinationViewController as! AddCostsVC
             addCostslVC.segueMode = "addGrey"
         }else if segue.identifier == "costDetail" {
-            let costDetailVC: CostDetailVC = segue.destinationViewController as CostDetailVC
+            let costDetailVC: CostDetailVC = segue.destinationViewController as! CostDetailVC
             costDetailVC.costDetail = tableCostDay[tableView.indexPathForSelectedRow()!.section][tableView.indexPathForSelectedRow()!.row]
         }
     }
@@ -92,7 +92,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             costDataForDay(day: day.0.date)
         }
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as Cell
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! Cell
     
         cell.labelCategory.text = tableCostDay[indexPath.section][indexPath.row].category
         cell.labelCategory.textColor = UIColor.darkGrayColor()
@@ -116,7 +116,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //TableViewDataSorce - Header
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as HeaderCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! HeaderCell
         var cost:Float = tableDays[section].0.costs.floatValue
         cell.dateLabel.text = Date.toString(date:tableDays[section].0.date)
         cell.monthlyCostsLabel.text = String(format: "€%.2f", cost)
@@ -152,7 +152,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let fetchRequest = NSFetchRequest(entityName: "DateDay")
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        let objectsDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
+        let objectsDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [DateDay]
         
         for object in objectsDay {
             tableDays += [(object,true)]
@@ -167,7 +167,7 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
         fetchRequest.predicate = predicate
-        var x = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [Cost]
+        var x = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Cost]
        // println(x.count)
         tableCostDay += [x]
         
@@ -191,9 +191,9 @@ class CostsRevenuesVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         var point = CGPoint(x: xX, y: yY)
         
-        let redArea = (view.bounds.width / 1.0/3.0) - 30
-        let greeArea = (view.bounds.width / 1.0/3.0) + 10
-        let greyArea = (view.bounds.width / 1.0/3.0 * 2) + 20
+        let redArea = (view.bounds.width / 1.0/3.0) - 70
+        let greeArea = (view.bounds.width / 1.0/3.0) + 20
+        let greyArea = (view.bounds.width / 1.0/3.0 * 2) + 50
         
         let yBound = self.view.bounds.height * 0.80
         let yBoundSledi = self.view.bounds.height * 0.70

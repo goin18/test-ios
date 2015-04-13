@@ -17,8 +17,8 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     var costDetail:Cost!
     var tableCostDetail:[String] = []
     
-    let appDelegete = (UIApplication.sharedApplication().delegate as AppDelegate)
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let appDelegete = (UIApplication.sharedApplication().delegate as! AppDelegate)
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        var cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
         
         if indexPath.section == 1 {
             cell.imageView?.image = UIImage(named: "iconRepeat")
@@ -128,7 +128,7 @@ class CostDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let predicate = NSComparisonPredicate(leftExpression: exprTitle, rightExpression: exprValue, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options: nil)
         
         fetchRequest.predicate = predicate
-        var requestDateDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [DateDay]
+        var requestDateDay = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [DateDay]
         
         if requestDateDay[0].numberCost.intValue > 1 {
             requestDateDay[0].numberCost = requestDateDay[0].numberCost.integerValue - 1
